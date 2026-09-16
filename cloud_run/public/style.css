@@ -1,0 +1,1352 @@
+/* ==========================================================================
+   POKÉDEX KANTO EDITION - 1세대 클래식 포켓몬 도감 & 간호순 누나 테마
+   Designed for Gemini AI Chatbot
+   ========================================================================== */
+
+:root {
+  /* 1세대 포켓몬 도감 시그니처 레드 컬러 팔레트 */
+  --pokedex-red: #dc0a2d;
+  --pokedex-red-dark: #b80824;
+  --pokedex-red-deep: #8b0014;
+  --pokedex-red-light: #ff2d4f;
+  --pokedex-red-shadow: #59000a;
+
+  /* 메탈릭 & 섀시 톤 */
+  --chassis-silver: #dedede;
+  --chassis-silver-dark: #b5b5b5;
+  --chassis-silver-light: #f5f5f5;
+  --chassis-gold: #ffcb05;
+  --chassis-blue-btn: #2b75bb;
+
+  /* 도감 상단 센서 렌즈 & LED 인디케이터 */
+  --lens-blue-core: #28aafd;
+  --lens-blue-edge: #0c4d87;
+  --lens-blue-glow: rgba(40, 170, 253, 0.8);
+  --led-red: #ff3b30;
+  --led-yellow: #ffcc00;
+  --led-green: #34c759;
+
+  /* 도감 LCD 스크린 테마 (사이버 에메랄드 다크 액정) */
+  --screen-bg: #0d1713;
+  --screen-bg-elevated: #15241d;
+  --screen-border: #233a2f;
+  --screen-text-main: #f0fdf4;
+  --screen-text-muted: #8fae9e;
+  --screen-text-accent: #4ade80;
+
+  /* 간호순 누나 핑크 테마 포인트 */
+  --joy-pink: #ff6b8b;
+  --joy-pink-soft: #ffe4ea;
+  --joy-pink-dark: #d83a5e;
+  --joy-pink-glow: rgba(255, 107, 139, 0.45);
+
+  /* 타이포그래피 */
+  --font-pixel: 'Press Start 2P', monospace;
+  --font-main: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-code: 'JetBrains Mono', monospace;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  font-family: var(--font-main);
+  background-color: #121418;
+  background-image: 
+    radial-gradient(circle at 50% 0%, #2b1117 0%, #121418 70%),
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.015) 0, rgba(255, 255, 255, 0.015) 2px, transparent 0, transparent 8px);
+  color: var(--screen-text-main);
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================================================
+   도감 본체 (Pokédex Chassis)
+   ========================================================================== */
+.pokedex-chassis {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1020px;
+  height: 100vh;
+  height: 100dvh;
+  margin: 0 auto;
+  background: linear-gradient(175deg, var(--pokedex-red-light) 0%, var(--pokedex-red) 35%, var(--pokedex-red-dark) 85%, var(--pokedex-red-deep) 100%);
+  border-left: 6px solid #ff4763;
+  border-right: 6px solid var(--pokedex-red-shadow);
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.75), inset 0 2px 4px rgba(255, 255, 255, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+/* --------------------------------------------------------------------------
+   도감 상단 바 & 센서 렌즈 (Top Bezel)
+   -------------------------------------------------------------------------- */
+.pokedex-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background: linear-gradient(to bottom, #f01438, #c70928);
+  border-bottom: 3px solid var(--pokedex-red-shadow);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 25;
+  flex-shrink: 0;
+}
+
+/* 대형 블루 렌즈 & 3색 LED */
+.pokedex-sensors {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.main-blue-lens {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #76d0fd 0%, var(--lens-blue-core) 40%, var(--lens-blue-edge) 85%, #05213d 100%);
+  border: 4px solid #ffffff;
+  box-shadow: 
+    0 0 0 3px #8e8e8e,
+    0 4px 8px rgba(0, 0, 0, 0.4),
+    0 0 18px var(--lens-blue-glow);
+  position: relative;
+  cursor: pointer;
+  animation: lensPulse 3s infinite ease-in-out;
+}
+
+@keyframes lensPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 3px #8e8e8e, 0 4px 8px rgba(0, 0, 0, 0.4), 0 0 14px var(--lens-blue-glow);
+  }
+  50% {
+    box-shadow: 0 0 0 3px #ffffff, 0 4px 8px rgba(0, 0, 0, 0.4), 0 0 26px rgba(40, 170, 253, 1);
+  }
+}
+
+.lens-reflection {
+  position: absolute;
+  top: 6px;
+  left: 8px;
+  width: 14px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.85);
+  transform: rotate(-35deg);
+  filter: blur(0.5px);
+}
+
+.indicator-leds {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.led {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+
+.led::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.led-red {
+  background: radial-gradient(circle at 30% 30%, #ff8080, var(--led-red));
+  box-shadow: 0 0 6px rgba(255, 59, 48, 0.7);
+  animation: ledBlink 2.5s infinite ease-in-out;
+}
+
+.led-yellow {
+  background: radial-gradient(circle at 30% 30%, #fff280, var(--led-yellow));
+  box-shadow: 0 0 6px rgba(255, 204, 0, 0.7);
+}
+
+.led-green {
+  background: radial-gradient(circle at 30% 30%, #80ff9f, var(--led-green));
+  box-shadow: 0 0 6px rgba(52, 199, 89, 0.8);
+  animation: ledBlink 3.2s infinite ease-in-out 1s;
+}
+
+@keyframes ledBlink {
+  0%, 100% { opacity: 0.9; }
+  50% { opacity: 0.4; }
+}
+
+/* 도감 브랜드 로고 & 몬스터볼 */
+.pokedex-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.pokeball-icon-mini {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2.5px solid #1a1a1a;
+  background: #ffffff;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.pokeball-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: #dc0a2d;
+}
+
+.pokeball-band {
+  position: absolute;
+  top: 45%;
+  left: 0;
+  width: 100%;
+  height: 12%;
+  background: #1a1a1a;
+}
+
+.pokeball-center-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid #1a1a1a;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+  z-index: 2;
+}
+
+.brand-text-group {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.pokedex-title {
+  font-family: var(--font-pixel);
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: #ffffff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.kanto-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  color: #ffd8df;
+}
+
+/* 우측 헤더 액션 */
+.pokedex-header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.status-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffe6ec;
+}
+
+.status-chip.online .status-heart {
+  animation: heartBeat 1.8s infinite ease-in-out;
+}
+
+@keyframes heartBeat {
+  0%, 100% { transform: scale(1); }
+  15% { transform: scale(1.25); }
+  30% { transform: scale(1); }
+  45% { transform: scale(1.15); }
+}
+
+.new-chat-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(to bottom, #ffcb05, #e6b400);
+  color: #2b1700;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.new-chat-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.new-chat-btn:active {
+  transform: translateY(1px);
+}
+
+/* 상단 힌지 디바이더 라인 */
+.pokedex-hinge-line {
+  width: 100%;
+  height: 8px;
+  background: var(--pokedex-red-deep);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  position: relative;
+  flex-shrink: 0;
+}
+
+.hinge-groove {
+  position: absolute;
+  top: 2px;
+  left: 20px;
+  right: 20px;
+  height: 3px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 2px;
+}
+
+/* ==========================================================================
+   메인 컨테이너: 도감 스크린 프레임 (The Pokédex Screen Compartment)
+   ========================================================================== */
+.main-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 12px 18px 6px;
+  overflow: hidden;
+  position: relative;
+}
+
+.pokedex-screen-frame {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(145deg, #e4e4e4 0%, #d2d2d2 45%, #bebebe 100%);
+  border-radius: 14px;
+  border: 3px solid #8e8e8e;
+  box-shadow: 
+    inset 0 2px 4px rgba(255, 255, 255, 0.8),
+    inset 0 -3px 5px rgba(0, 0, 0, 0.35),
+    0 8px 18px rgba(0, 0, 0, 0.3);
+  padding: 8px 10px 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* 스크린 프레임 상단 듀얼 레드 닷 */
+.screen-frame-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 4px 6px;
+}
+
+.frame-dot.red-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #ff6666, #cc0000);
+  border: 1px solid #770000;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.screen-label {
+  font-family: var(--font-pixel);
+  font-size: 0.58rem;
+  color: #4a5568;
+  letter-spacing: 0.5px;
+}
+
+/* ==========================================================================
+   도감 LCD 액정 디스플레이 (The LCD Screen)
+   ========================================================================== */
+.pokedex-lcd-screen {
+  flex: 1;
+  background: var(--screen-bg);
+  background-image: 
+    radial-gradient(ellipse at 50% 15%, #183325 0%, var(--screen-bg) 75%),
+    repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.15) 0px, rgba(0, 0, 0, 0.15) 1px, transparent 1px, transparent 2px);
+  border-radius: 8px;
+  border: 2px solid #233a2f;
+  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.85);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+/* --------------------------------------------------------------------------
+   1. 초기 랜딩 화면: 간호순 누나 환영 센터
+   -------------------------------------------------------------------------- */
+.landing-view {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 20px;
+  overflow-y: auto;
+  text-align: center;
+}
+
+.nurse-joy-hero-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 680px;
+  margin-bottom: 20px;
+}
+
+.nurse-joy-avatar-wrapper {
+  position: relative;
+  margin-bottom: 14px;
+}
+
+.nurse-joy-hero-img {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3.5px solid var(--joy-pink);
+  box-shadow: 
+    0 0 0 4px rgba(255, 107, 139, 0.25),
+    0 6px 18px rgba(0, 0, 0, 0.5);
+  background: #ffffff;
+  transition: transform 0.25s ease;
+}
+
+.nurse-joy-avatar-wrapper:hover .nurse-joy-hero-img {
+  transform: scale(1.05);
+}
+
+.nurse-joy-badge {
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  background: linear-gradient(135deg, #ff4d79, #e62254);
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 12px;
+  border: 1.5px solid #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+}
+
+.greeting-heading {
+  font-size: 1.55rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 8px;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+  letter-spacing: -0.3px;
+}
+
+.greeting-subtext {
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: #c4ded0;
+  max-width: 580px;
+}
+
+/* 포켓몬 추천 질문 칩 */
+.suggestion-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  width: 100%;
+  max-width: 720px;
+  margin-top: 10px;
+}
+
+.suggestion-chip {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: rgba(21, 36, 29, 0.85);
+  border: 1px solid rgba(74, 222, 128, 0.25);
+  border-radius: 10px;
+  color: var(--screen-text-main);
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.suggestion-chip:hover {
+  background: rgba(30, 52, 42, 0.95);
+  border-color: rgba(74, 222, 128, 0.6);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(74, 222, 128, 0.15);
+}
+
+.chip-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.chip-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.chip-text strong {
+  font-size: 0.86rem;
+  color: #ffffff;
+}
+
+.chip-text small {
+  font-size: 0.74rem;
+  color: var(--screen-text-muted);
+  margin-top: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   2. 대화 화면 (Chat View)
+   -------------------------------------------------------------------------- */
+.chat-view {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 20px;
+  scroll-behavior: smooth;
+}
+
+.chat-view.hidden {
+  display: none;
+}
+
+.chat-messages {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.message-row {
+  display: flex;
+  width: 100%;
+  animation: fadeInMsg 0.25s ease forwards;
+}
+
+@keyframes fadeInMsg {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 트레이너 (사용자) 메시지 */
+.message-row.user {
+  justify-content: flex-end;
+}
+
+.user-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  max-width: 80%;
+}
+
+.user-tag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #ff99aa;
+  margin-bottom: 4px;
+}
+
+.user-bubble {
+  background: linear-gradient(135deg, #1d4ed8, #2563eb);
+  color: #ffffff;
+  padding: 10px 16px;
+  border-radius: 16px 4px 16px 16px;
+  font-size: 0.94rem;
+  line-height: 1.5;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  word-break: break-word;
+}
+
+/* 간호순 누나 (AI 어시스턴트) 메시지 */
+.message-row.assistant {
+  justify-content: flex-start;
+  gap: 12px;
+}
+
+.assistant-avatar {
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--joy-pink);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  background: #ffffff;
+}
+
+.nurse-joy-chat-avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.assistant-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  max-width: 85%;
+}
+
+.assistant-meta {
+  margin-bottom: 4px;
+}
+
+.assistant-model-pill {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--joy-pink);
+  background: rgba(255, 107, 139, 0.12);
+  padding: 2px 8px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 107, 139, 0.3);
+}
+
+.assistant-body {
+  background: rgba(21, 36, 29, 0.92);
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  color: var(--screen-text-main);
+  padding: 14px 18px;
+  border-radius: 4px 16px 16px 16px;
+  font-size: 0.93rem;
+  line-height: 1.62;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+  word-break: break-word;
+}
+
+.assistant-body p {
+  margin-bottom: 8px;
+}
+
+.assistant-body p:last-child {
+  margin-bottom: 0;
+}
+
+.assistant-body strong {
+  color: #86efac;
+}
+
+.assistant-body ul, .assistant-body ol {
+  padding-left: 20px;
+  margin-bottom: 8px;
+}
+
+.assistant-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10px 0;
+  background: rgba(13, 23, 19, 0.8);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.assistant-body th, .assistant-body td {
+  border: 1px solid rgba(74, 222, 128, 0.2);
+  padding: 6px 10px;
+  font-size: 0.85rem;
+}
+
+.assistant-body th {
+  background: rgba(74, 222, 128, 0.15);
+  color: #86efac;
+}
+
+/* 사고 과정(Thinking) 카드 */
+.thought-card {
+  background: rgba(13, 23, 19, 0.9);
+  border: 1px solid rgba(255, 204, 0, 0.35);
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+}
+
+.thought-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.thought-title-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #facc15;
+}
+
+.thought-toggle-btn {
+  background: transparent;
+  border: none;
+  color: #ca8a04;
+  font-size: 0.72rem;
+  cursor: pointer;
+}
+
+.thought-body {
+  font-size: 0.8rem;
+  color: #cbd5e1;
+  margin-top: 6px;
+  line-height: 1.45;
+  border-top: 1px dashed rgba(255, 204, 0, 0.2);
+  padding-top: 6px;
+}
+
+.thought-body.hidden {
+  display: none;
+}
+
+/* 로딩 도트 애니메이션 */
+.loading-dots {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 0;
+}
+
+.loading-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--joy-pink);
+  animation: dotPulse 1.2s infinite ease-in-out;
+}
+
+.loading-dot:nth-child(2) { animation-delay: 0.2s; }
+.loading-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes dotPulse {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+  40% { transform: scale(1.1); opacity: 1; }
+}
+
+/* 복사 버튼 */
+.assistant-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 6px;
+}
+
+.copy-reply-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  color: var(--screen-text-muted);
+  font-size: 0.72rem;
+  padding: 3px 8px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.copy-reply-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+/* 코드 블록 */
+.code-block-wrapper {
+  margin: 10px 0;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #090e0c;
+  border: 1px solid rgba(74, 222, 128, 0.25);
+}
+
+.code-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  color: #86efac;
+}
+
+.code-copy-btn {
+  background: transparent;
+  border: none;
+  color: #cbd5e1;
+  font-size: 0.72rem;
+  cursor: pointer;
+}
+
+pre {
+  padding: 10px;
+  overflow-x: auto;
+  font-family: var(--font-code);
+  font-size: 0.84rem;
+  color: #f1f5f9;
+}
+
+/* 스크린 하단 환기 슬롯 & 레드 램프 */
+.screen-frame-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 6px 0;
+}
+
+.screen-btn-red {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #ff6666, #cc0000);
+  border: 1.5px solid #660000;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.screen-speaker-grille {
+  display: flex;
+  gap: 5px;
+}
+
+.screen-speaker-grille span {
+  width: 32px;
+  height: 4px;
+  border-radius: 2px;
+  background: #737373;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+/* ==========================================================================
+   하단 도감 조작부 및 입력 터미널 (Bottom Input Controls)
+   ========================================================================== */
+.input-section {
+  padding: 8px 18px 12px;
+  background: linear-gradient(to top, #b80824, var(--pokedex-red));
+  border-top: 2px solid rgba(255, 255, 255, 0.2);
+  flex-shrink: 0;
+  z-index: 20;
+}
+
+.pokedex-controls-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+/* 십자키 (D-Pad) 디자인 데코레이션 */
+.dpad-container {
+  display: grid;
+  grid-template-columns: 20px 20px 20px;
+  grid-template-rows: 20px 20px 20px;
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.dpad-btn {
+  background: #2b2b2b;
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.2), 0 2px 4px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.dpad-btn:hover {
+  background: #3d3d3d;
+}
+
+.dpad-up {
+  grid-column: 2;
+  grid-row: 1;
+  border-radius: 4px 4px 0 0;
+}
+
+.dpad-left {
+  grid-column: 1;
+  grid-row: 2;
+  border-radius: 4px 0 0 4px;
+}
+
+.dpad-center {
+  grid-column: 2;
+  grid-row: 2;
+  background: #222222;
+  border-radius: 50%;
+  margin: 2px;
+}
+
+.dpad-right {
+  grid-column: 3;
+  grid-row: 2;
+  border-radius: 0 4px 4px 0;
+}
+
+.dpad-down {
+  grid-column: 2;
+  grid-row: 3;
+  border-radius: 0 0 4px 4px;
+}
+
+/* 알약형 입력창 */
+.input-pill-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  border-radius: 28px;
+  padding: 4px 8px 4px 14px;
+  border: 2px solid #8e8e8e;
+  box-shadow: 
+    inset 0 2px 4px rgba(0, 0, 0, 0.12),
+    0 4px 12px rgba(0, 0, 0, 0.25);
+  position: relative;
+}
+
+.pill-btn.add-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+}
+
+.pokeball-small-icon {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid #1a1a1a;
+  background: #ffffff;
+  position: relative;
+  overflow: hidden;
+}
+
+.pokeball-small-icon::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: #dc0a2d;
+}
+
+.pokeball-small-icon::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1.5px solid #1a1a1a;
+}
+
+.gemini-input-icon {
+  margin: 0 6px;
+  font-size: 1.1rem;
+}
+
+.input-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+#promptInput {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--font-main);
+  font-size: 0.92rem;
+  color: #1a1a1a;
+  resize: none;
+  max-height: 120px;
+  padding: 6px 4px;
+  line-height: 1.4;
+}
+
+#promptInput::placeholder {
+  color: #8c8c8c;
+}
+
+.pill-actions-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 모델 선택기 */
+.model-selector-wrapper {
+  position: relative;
+}
+
+.model-select-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 16px;
+  padding: 4px 10px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.model-select-btn:hover {
+  background: #e2e8f0;
+}
+
+.model-dropdown-menu {
+  display: none;
+  position: absolute;
+  bottom: 115%;
+  right: 0;
+  width: 320px;
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #cbd5e1;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+  padding: 8px;
+  z-index: 50;
+}
+
+.model-dropdown-menu.show {
+  display: block;
+}
+
+.dropdown-header {
+  padding: 6px 10px;
+  border-bottom: 1px solid #e2e8f0;
+  margin-bottom: 6px;
+}
+
+.dropdown-title {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #64748b;
+}
+
+.model-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.model-option:hover {
+  background: #f8fafc;
+}
+
+.model-option.active {
+  background: #eff6ff;
+}
+
+.option-check {
+  font-size: 0.85rem;
+  color: #2563eb;
+  font-weight: 800;
+  margin-top: 2px;
+}
+
+.option-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.option-header-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.option-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.option-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+.default-badge { background: #dbeafe; color: #1e40af; }
+.fast-badge { background: #fef08a; color: #854d0e; }
+.agent-badge { background: #f3e8ff; color: #6b21a8; }
+
+.option-desc {
+  font-size: 0.72rem;
+  color: #64748b;
+  margin-top: 2px;
+  line-height: 1.35;
+}
+
+/* 마이크 버튼 */
+.pill-btn.mic-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #64748b;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  transition: color 0.15s;
+}
+
+.pill-btn.mic-btn:hover {
+  color: #dc0a2d;
+}
+
+.pill-btn.mic-btn.listening {
+  color: #dc0a2d;
+  animation: micPulse 1s infinite;
+}
+
+@keyframes micPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+
+/* ==========================================================================
+   3D 몬스터볼(Pokéball) 전송 버튼
+   ========================================================================== */
+.pokeball-send-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid #1a1a1a;
+  background: #ffffff;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+  transition: transform 0.15s, box-shadow 0.15s;
+  flex-shrink: 0;
+}
+
+.pokeball-btn-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: linear-gradient(to bottom, #ff334b, #dc0a2d);
+}
+
+.pokeball-btn-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid #1a1a1a;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+  z-index: 3;
+}
+
+.pokeball-btn-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: #ffffff;
+}
+
+.pokeball-send-btn::before {
+  content: '';
+  position: absolute;
+  top: 45%;
+  left: 0;
+  width: 100%;
+  height: 10%;
+  background: #1a1a1a;
+  z-index: 2;
+}
+
+.pokeball-send-btn:hover:not(:disabled) {
+  transform: scale(1.08) rotate(12deg);
+  box-shadow: 0 4px 10px rgba(220, 10, 45, 0.5);
+}
+
+.pokeball-send-btn:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.pokeball-send-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: grayscale(40%);
+}
+
+/* 도감 A/B 버튼 장식 */
+.action-buttons-group {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.action-pill-btn {
+  width: 14px;
+  height: 38px;
+  border-radius: 8px;
+  border: 1px solid #1a1a1a;
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.3), 0 2px 4px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  transform: rotate(25deg);
+}
+
+.pill-btn-yellow {
+  background: linear-gradient(to bottom, #ffea75, #e6b800);
+}
+
+.pill-btn-blue {
+  background: linear-gradient(to bottom, #75c2ff, #2b75bb);
+}
+
+/* 푸터 안내문구 */
+.input-footer-note {
+  text-align: center;
+  margin-top: 8px;
+  font-size: 0.72rem;
+  color: #ffd1d8;
+  letter-spacing: 0.3px;
+}
+
+/* 음성 토스트 */
+.voice-toast {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(13, 23, 19, 0.95);
+  border: 1px solid var(--joy-pink);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+  border-radius: 20px;
+  padding: 8px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #ffffff;
+  font-size: 0.85rem;
+  z-index: 100;
+}
+
+.voice-toast.hidden {
+  display: none;
+}
+
+.voice-pulse {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--joy-pink);
+  animation: heartBeat 1s infinite;
+}
+
+.voice-stop-btn {
+  background: #dc0a2d;
+  color: #ffffff;
+  border: none;
+  padding: 3px 8px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   반응형 최적화 (Mobile Responsive)
+   ========================================================================== */
+@media (max-width: 768px) {
+  .pokedex-chassis {
+    border-left: none;
+    border-right: none;
+    border-radius: 0;
+  }
+  
+  .dpad-container {
+    display: none;
+  }
+  
+  .action-buttons-group {
+    display: none;
+  }
+
+  .main-container {
+    padding: 6px 10px 4px;
+  }
+
+  .suggestion-container {
+    grid-template-columns: 1fr;
+  }
+
+  .greeting-heading {
+    font-size: 1.25rem;
+  }
+
+  .pokedex-title {
+    font-size: 0.72rem;
+  }
+
+  .kanto-badge {
+    display: none;
+  }
+}

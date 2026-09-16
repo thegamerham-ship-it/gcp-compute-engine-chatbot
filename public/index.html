@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>포켓몬 도감 (POKÉDEX) - 간호순 누나의 포켓몬 센터</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css" />
+  <script>
+    if (window.location.protocol === 'http:' && !['localhost', '127.0.0.1'].includes(window.location.hostname)) {
+      window.location.protocol = 'https:';
+    }
+  </script>
+</head>
+<body>
+  <!-- Pokédex Outer Housing (1세대 포켓몬 빨간색 도감 본체) -->
+  <div class="pokedex-chassis" id="geminiApp">
+    
+    <!-- Top Bezel: Pokédex Signature Lights & Camera Lens Bar -->
+    <header class="pokedex-top-bar">
+      <!-- Big Blue Sensor Lens & 3 Mini LEDs -->
+      <div class="pokedex-sensors">
+        <div class="main-blue-lens" title="도감 메인 센서 아이">
+          <div class="lens-reflection"></div>
+        </div>
+        <div class="indicator-leds">
+          <span class="led led-red" id="ledPower" title="통신 상태 (Power)"></span>
+          <span class="led led-yellow" id="ledThinking" title="도감 데이터 분석 중"></span>
+          <span class="led led-green" id="ledReady" title="도감 준비 완료"></span>
+        </div>
+      </div>
+
+      <!-- Center / Brand: Kanto Pokédex Title with Pokéball -->
+      <div class="pokedex-brand" id="brandBtn">
+        <div class="pokeball-icon-mini">
+          <div class="pokeball-top"></div>
+          <div class="pokeball-band"></div>
+          <div class="pokeball-center-btn"></div>
+          <div class="pokeball-bottom"></div>
+        </div>
+        <div class="brand-text-group">
+          <span class="pokedex-title">POKÉDEX</span>
+          <span class="kanto-badge">KANTO v1.0</span>
+        </div>
+      </div>
+
+      <!-- Right Actions: Pokemon Center Status & New Record -->
+      <div class="pokedex-header-right">
+        <div class="status-chip online" id="apiStatusChip" title="포켓몬 센터 통신 상태">
+          <span class="status-heart">💖</span>
+          <span class="status-text" id="statusText">포켓몬 센터 온라인</span>
+        </div>
+        <button class="new-chat-btn" id="newChatBtn" title="새로운 도감 기록 시작">
+          <span class="btn-icon">⚡</span>
+          <span>새 기록</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Pokédex Top Asymmetric Hinge Divider Line -->
+    <div class="pokedex-hinge-line">
+      <div class="hinge-groove"></div>
+    </div>
+
+    <!-- Main Content Container: The Pokédex Screen Frame -->
+    <main class="main-container" id="mainContainer">
+      <div class="pokedex-screen-frame">
+        <!-- Screen Bezel Top Mini Dots -->
+        <div class="screen-frame-top">
+          <span class="frame-dot red-dot"></span>
+          <span class="frame-dot red-dot"></span>
+          <span class="screen-label">POKÉMON CENTER DATABASE · NURSE JOY TERMINAL</span>
+        </div>
+
+        <!-- LCD Screen Display Content Area -->
+        <div class="pokedex-lcd-screen">
+          
+          <!-- 1. Landing Hero View (초기 환영 화면) -->
+          <section class="landing-view" id="landingView">
+            <div class="nurse-joy-hero-card">
+              <div class="nurse-joy-avatar-wrapper">
+                <img src="/nurse_joy.jpg" alt="간호순 누나" class="nurse-joy-hero-img" />
+                <div class="nurse-joy-badge">
+                  <span>간호순 누나 (Nurse Joy) 💖</span>
+                </div>
+              </div>
+              <div class="hero-text-content">
+                <h1 class="greeting-heading" id="greetingHeading">트레이너님, 무엇이 궁금하신가요?</h1>
+                <p class="greeting-subtext">
+                  포켓몬 센터에 오신 것을 환영해요! 포켓몬의 진화 조건과 추천 기술 배치, 
+                  체육관 관장 배틀 상성부터 지친 포켓몬의 건강 회복 꿀팁까지 럭키와 함께 친절하게 알려드릴게요! 🔴⚪
+                </p>
+              </div>
+            </div>
+
+            <!-- Input Anchor in Landing State -->
+            <div class="landing-input-anchor" id="inputAnchor"></div>
+
+            <!-- Pokemon Suggestion Chips -->
+            <div class="suggestion-container" id="suggestionContainer">
+              <button class="suggestion-chip" data-prompt="피카츄의 진화 조건과 1세대 최고 효율 추천 기술 배치를 알려줘!">
+                <span class="chip-icon">⚡</span>
+                <span class="chip-text">
+                  <strong>피카츄 진화 & 기술 배치</strong>
+                  <small>라이츄 진화 돌 및 추천 기술</small>
+                </span>
+              </button>
+              <button class="suggestion-chip" data-prompt="회색체육관 관장 웅이(바위/땅 타입)를 격파하기 위한 최적의 포켓몬 전략을 알려줘!">
+                <span class="chip-icon">💧</span>
+                <span class="chip-text">
+                  <strong>체육관 관장 웅이 공략</strong>
+                  <small>바위/땅 타입 카운터 및 전략</small>
+                </span>
+              </button>
+              <button class="suggestion-chip" data-prompt="포켓몬 배틀 상성표 총정리: 불꽃 vs 물 vs 풀 타입의 상성 관계와 2배 약점을 쉽게 설명해줘!">
+                <span class="chip-icon">🔥</span>
+                <span class="chip-text">
+                  <strong>불/물/풀 배틀 상성표</strong>
+                  <small>타입별 2배 약점 및 유리한 상성</small>
+                </span>
+              </button>
+              <button class="suggestion-chip" data-prompt="배틀 후 지친 포켓몬들의 체력과 마비/독 상태이상을 빠르게 회복하는 팁을 알려줘!">
+                <span class="chip-icon">💖</span>
+                <span class="chip-text">
+                  <strong>지친 포켓몬 회복 꿀팁</strong>
+                  <small>체력 및 상태이상 관리 가이드</small>
+                </span>
+              </button>
+            </div>
+          </section>
+
+          <!-- 2. Chat Conversation View (스크롤 대화 영역) -->
+          <section class="chat-view hidden" id="chatView">
+            <div class="chat-messages" id="chatMessages">
+              <!-- Messages dynamically injected here -->
+            </div>
+          </section>
+        </div>
+
+        <!-- Screen Frame Bottom Controls: Speaker Grille & D-Pad Decor -->
+        <div class="screen-frame-bottom">
+          <div class="screen-speaker-grille">
+            <span></span><span></span><span></span><span></span>
+          </div>
+          <div class="screen-btn-red"></div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Bottom Controls & Input Console (도감 조작부 및 입력 터미널) -->
+    <footer class="input-section" id="inputSection">
+      <div class="pokedex-controls-row">
+        <!-- D-Pad Directional Pad Decoration -->
+        <div class="dpad-container" title="도감 방향키">
+          <div class="dpad-btn dpad-up"></div>
+          <div class="dpad-btn dpad-left"></div>
+          <div class="dpad-center"></div>
+          <div class="dpad-btn dpad-right"></div>
+          <div class="dpad-btn dpad-down"></div>
+        </div>
+
+        <!-- Floating Pill Input Container -->
+        <div class="input-pill-container" id="inputPillContainer">
+          <!-- Pokeball Attach / Quick Tools Button -->
+          <button class="pill-btn add-btn" id="attachBtn" title="포켓몬 도구 및 기능" type="button">
+            <div class="pokeball-small-icon"></div>
+          </button>
+
+          <!-- Nurse Joy Stethoscope Icon -->
+          <div class="gemini-input-icon" title="포켓몬 센터 헬스 가이드">
+            <span class="input-joy-heart">💖</span>
+          </div>
+
+          <!-- Auto-expanding Textarea Input -->
+          <div class="input-wrapper">
+            <textarea
+              id="promptInput"
+              rows="1"
+              placeholder="간호순 누나에게 포켓몬 질문하기 (예: 파이리 진화 레벨이 몇이야?)"
+              autocomplete="off"
+              spellcheck="false"
+            ></textarea>
+          </div>
+
+          <!-- Action Controls Right -->
+          <div class="pill-actions-right">
+            <!-- Model Selector Dropdown Button -->
+            <div class="model-selector-wrapper" id="modelSelectorWrapper">
+              <button class="model-select-btn" id="modelSelectBtn" type="button" aria-haspopup="true" aria-expanded="false">
+                <span class="model-name-text" id="activeModelLabel">도감 표준 분석</span>
+                <svg class="chevron-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+
+              <!-- Dropdown Popover Menu -->
+              <div class="model-dropdown-menu" id="modelDropdownMenu">
+                <div class="dropdown-header">
+                  <span class="dropdown-title">도감 분석 AI 엔진 선택</span>
+                </div>
+                <div class="model-options-list">
+                  <!-- Option: Gemini 3.8 Flash -->
+                  <div class="model-option active" data-model="gemini-3.8-flash" id="optionModel38">
+                    <div class="option-check">
+                      <span class="check-icon">✓</span>
+                    </div>
+                    <div class="option-info">
+                      <div class="option-header-row">
+                        <span class="option-title">관동 도감 표준 분석 (Gemini 3.8 Flash)</span>
+                        <span class="option-badge default-badge">기본 · 추천</span>
+                      </div>
+                      <span class="option-desc">최신 심층 추론으로 포켓몬 상성과 배틀 전략을 완벽히 분석하는 플래그십 모델</span>
+                    </div>
+                  </div>
+
+                  <!-- Option: Gemini 3.7 Flash -->
+                  <div class="model-option" data-model="gemini-3.7-flash" id="optionModel37">
+                    <div class="option-check">
+                      <span class="check-icon">✓</span>
+                    </div>
+                    <div class="option-info">
+                      <div class="option-header-row">
+                        <span class="option-title">고속 도감 검색 (Gemini 3.7 Flash)</span>
+                        <span class="option-badge fast-badge">초고속</span>
+                      </div>
+                      <span class="option-desc">포켓몬 기술 및 진화 정보를 즉각 빠르게 조회하는 고속 응답 모델</span>
+                    </div>
+                  </div>
+
+                  <!-- Option: Antigravity Preview Agent -->
+                  <div class="model-option" data-model="antigravity-preview-05-2026" id="optionModelAgent">
+                    <div class="option-check">
+                      <span class="check-icon">✓</span>
+                    </div>
+                    <div class="option-info">
+                      <div class="option-header-row">
+                        <span class="option-title">포켓몬 심층 연구 에이전트 (Antigravity Agent)</span>
+                        <span class="option-badge agent-badge">연구 에이전트</span>
+                      </div>
+                      <span class="option-desc">오박사 연구소급의 심층 분석과 자율 도구 실행을 지원하는 연구형 모델</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Microphone Voice Input Button -->
+            <button class="pill-btn mic-btn" id="micBtn" title="음성 도감 입력" type="button">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                <line x1="12" y1="19" x2="12" y2="23"></line>
+                <line x1="8" y1="23" x2="16" y2="23"></line>
+              </svg>
+            </button>
+
+            <!-- 3D Pokéball Submit Send Button -->
+            <button class="pokeball-send-btn" id="sendBtn" title="질문 전송 (몬스터볼 발사)" type="button" disabled>
+              <div class="pokeball-btn-top"></div>
+              <div class="pokeball-btn-center"></div>
+              <div class="pokeball-btn-bottom"></div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Action Yellow/Blue Buttons Decoration -->
+        <div class="action-buttons-group">
+          <div class="action-pill-btn pill-btn-yellow" title="도감 A 버튼"></div>
+          <div class="action-pill-btn pill-btn-blue" title="도감 B 버튼"></div>
+        </div>
+      </div>
+
+      <!-- Footer Disclaimer -->
+      <div class="input-footer-note">
+        <span>POKÉDEX KANTO EDITION · 간호순 누나와 럭키가 항상 트레이너님의 모험을 응원해요! 💖</span>
+      </div>
+    </footer>
+
+    <!-- Audio Recording Wave Indicator Popup -->
+    <div class="voice-toast hidden" id="voiceToast">
+      <div class="voice-pulse"></div>
+      <span class="voice-text">음성 도감 모드: 말씀해 주시면 간호순 누나가 들을게요...</span>
+      <button class="voice-stop-btn" id="voiceStopBtn">중지</button>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
+

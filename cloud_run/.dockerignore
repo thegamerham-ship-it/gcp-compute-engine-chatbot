@@ -1,0 +1,11 @@
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.env
+.ipynb_checkpoints
+*.ipynb
+deploy.py
+deploy.ps1
+deploy.sh
+README.md
