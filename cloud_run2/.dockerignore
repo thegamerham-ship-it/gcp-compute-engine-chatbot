@@ -1,0 +1,15 @@
+.git
+.gitignore
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.env
+.env.*
+!env.example
+*.ipynb
+.ipynb_checkpoints
+deploy.py
+deploy.sh
+deploy.ps1
+README.md
